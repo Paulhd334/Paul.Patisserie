@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paul  | Pâtisserie  | Recettes Style Cédric Grolet</title>
+
+
+
+
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: #000;
+            background-color: #fff;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+        
+        /* Typographie */
+        h1, h2, h3, h4 {
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+        
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            width: 100%;
+            background-color: #fff;
+            z-index: 1000;
+            border-bottom: 1px solid #000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+        
+        .logo {
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #000;
+        }
+        
+        /* Menu Burger */
+        .menu-toggle {
+            display: none;
+            width: 30px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .menu-toggle span {
+            display: block;
+            position: absolute;
+            height: 1px;
+            width: 100%;
+            background: #000;
+            transition: all 0.3s;
+        }
+        
+        .menu-toggle span:nth-child(1) { top: 0; }
+        .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+        .menu-toggle span:nth-child(3) { bottom: 0; }
+        
+        .menu-toggle.active span:nth-child(1) {
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+        }
+        
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.active span:nth-child(3) {
+            bottom: 50%;
+            transform: translateY(50%) rotate(-45deg);
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            margin-left: 40px;
+        }
+        
+        .nav-menu a {
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+        }
+        
+        .nav-menu a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            background: #000;
+            bottom: -2px;
+            left: 0;
+            transition: width 0.3s;
+        }
+        
+        .nav-menu a:hover:after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 80px;
+        }
+        
+        .hero-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        .hero-content {
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+            max-width: 800px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .hero-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border: 1px solid white;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        
+        .hero-btn:hover {
+            background: white;
+            color: black;
+        }
+        
+        /* Section Recettes */
+        .recipes-section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+        
+        .section-title h2 {
+            font-size: 24px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            font-size: 14px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 40px;
+        }
+        
+        .recipe-card {
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        
+        .recipe-img {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .recipe-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .recipe-card:hover .recipe-img img {
+            transform: scale(1.03);
+        }
+        
+        .recipe-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .recipe-card:hover .recipe-overlay {
+            opacity: 1;
+        }
+        
+        .recipe-btn {
+            color: white;
+            border: 2px solid white;
+            padding: 10px 25px;
+            border-radius: 0px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        
+        .recipe-btn:hover {
+            background: white;
+            color: black;
+        }
+        
+        .recipe-info {
+            margin-top: 20px;
+        }
+        
+        .recipe-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        
+        .recipe-info p {
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .recipe-link {
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 1px solid #000;
+            padding: 10px 20px;
+            transition: all 0.3s;
+        }
+        
+        .recipe-link:hover {
+            background: #000;
+            color: #fff;
+        }
+        
+        /* Pages de recettes */
+        .recipe-page {
+            padding: 120px 0 80px;
+        }
+        
+        .recipe-header {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+        
+        .recipe-header h1 {
+            font-size: 28px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        
+        .recipe-header img {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            margin-bottom: 30px;
+        }
+        
+        .recipe-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .recipe-section {
+            margin-bottom: 40px;
+        }
+        
+        .recipe-section h2 {
+            font-size: 18px;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #000;
+            padding-bottom: 10px;
+        }
+        
+        .recipe-section ul, .recipe-section ol {
+            padding-left: 20px;
+        }
+        
+        .recipe-section li {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        /* Formulaire */
+        .add-recipe {
+            padding: 80px 0;
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+        }
+        
+        .add-recipe h2 {
+            font-size: 24px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 30px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 1px solid #000;
+            background: transparent;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background: transparent;
+            color: #000;
+            border: 1px solid #000;
+            padding: 12px 30px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            margin: 40px auto 0;
+        }
+        
+        .submit-btn:hover {
+            background: #000;
+            color: #fff;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 18px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            display: inline-block;
+            color: #000;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 30px 0;
+        }
+        
+        .footer-links li {
+            margin: 0 15px;
+        }
+        
+        .footer-links a {
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .copyright {
+            font-size: 12px;
+            color: #555;
+            margin-top: 30px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background: #fff;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: right 0.5s;
+            }
+            
+            .nav-menu.active {
+                right: 0;
+            }
+            
+            .nav-menu li {
+                margin: 15px 0;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .recipe-img {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">Paul  | Pâtisserie</a>
+            
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="index.html#recipes">Recettes</a></li>
+                <li><a href="index.html#add-recipe">Ajouter</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+    
+    <!-- Page d'accueil -->
+    <main id="home-page">
+        <!-- Hero Section -->
+        <section class="hero">
+            <img src="Images/Classiques-patisserie-francaise.jpg" alt="Assortiment de pâtisseries françaises contemporaines" class="hero-image">
+            <div class="hero-content">
+                <h1>L'Art de la Pâtisserie Moderne</h1>
+                <p>Découvrez des créations uniques inspirées des plus grands chefs pâtissiers contemporains comme Cédric Grolet. Des recettes innovantes qui marient tradition et modernité pour éveiller vos papilles.</p>
+                <a href="#recipes" class="hero-btn">Explorer les recettes</a>
+            </div>
+        </section>
+        
+
+
+
+        <!-- Section Recettes -->
+        <section class="recipes-section container" id="recipes">
+            <div class="section-title">
+                <h2>Les Recettes Cedric Grolet</h2>
+                <p>Une sélection de créations emblématiques qui réinventent les classiques avec des techniques contemporaines</p>
+            </div>
+            
+            <div class="recipes-grid">
+                <!-- Recette 1 - Black Forest -->
+                <article class="recipe-card">
+                    <div class="recipe-img">
+                        <img src="Images/Gateaux/black.forest.jpg" alt="Black Forest revisité">
+                        <div class="recipe-overlay">
+                            <a href="Black.Forest.html" class="recipe-btn">Voir la recette</a>
+                        </div>
+                    </div>
+                    <div class="recipe-info">
+                        <h3>Black Forest </h3>
+                        <p>Notre version allégée de la Forêt-Noire traditionnelle remplace la crème chantilly par une mousse au fromage blanc et réduit le sucre de 30% tout en conservant l'intensité du chocolat.</p>
+                        <a href="Black.Forest.html" class="recipe-link">Découvrir</a>
+                    </div>
+                </article>
+                
+                <!-- Recette 2 - Lilac -->
+                <article class="recipe-card">
+                    <div class="recipe-img">
+                        <img src="Images/Gateaux/Lilac.png" alt="Entremets Lilac">
+                        <div class="recipe-overlay">
+                            <a href="LILAC.HTML" class="recipe-btn">Voir la recette</a>
+                        </div>
+                    </div>
+                    <div class="recipe-info">
+                        <h3>LILAC - Harmonie Vanillée</h3>
+                     <p class="description">Une symphonie printanière où la douceur vanillée épouse l'acidulé des myrtilles.
+                     Ce dessert joue sur les contrastes : entre le moelleux du gâteau à la pâte à choux, la fraîcheur et l'onctuosité de la ganache.</p>
+     
+                        <a href="LILAC.HTML" class="recipe-link">Découvrir</a>
+                    </div>
+                </article>
+                
+                <!-- Recette 3 - ROSE-->
+                <article class="recipe-card">
+                    <div class="recipe-img">
+                        <img src="Images/Gateaux/Rose.white.png" alt="ROSE">
+                        <div class="recipe-overlay">
+                            <a href="Rose.blanche.HTML" class="recipe-btn">Voir la recette</a>
+                        </div>
+                    </div>
+                    <div class="recipe-info">
+                        <h3>ROSE BLANCHE</h3>
+                     <p class="description">Un dessert d'une pureté élégante où la vanille se dévoile dans toute sa noblesse. 
+                     Entre le croquant du sablé breton, l'onctuosité du caramel et la légèretéde la ganache montée. </p>
+                        <a href="Rose.blanche.HTML" class="recipe-link">Découvrir</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Section Recettes -->
+        <section class="recipes-section container" id="recipes">
+            <div class="section-title">
+                <h2>Mes créations</h2>
+            </div>
+            
+            <div class="recipes-grid">
+                <!-- Recette 1 - Black Forest -->
+                <article class="recipe-card">
+                    <div class="recipe-img">
+                        <img src="Images/Gateaux/Mes.Creations/Citron.png" alt="Black Forest revisité">
+                        <div class="recipe-overlay">
+                            <a href="Recipe-Black Forest.html" class="recipe-btn">Voir la recette</a>
+                        </div>
+                    </div>
+                    <div class="recipe-info">
+                        <h3>Tarte au Citron</h3>
+                        et réduit le sucre de 30% tout en conservant l'intensité du chocolat.</p>
+                        <a href="Recipe-Black Forest.html" class="recipe-link">Découvrir</a>
+                    </div>
+                </article>
+                
+                <!-- Recette 2 - Lilac -->
+                <article class="recipe-card">
+                    <div class="recipe-img">
+                        <img src="Images/Gateaux/Mes.Creations/Flowers.png" alt="Entremets Lilac">
+                        <div class="recipe-overlay">
+                            <a href="LILAC.HTML" class="recipe-btn">Voir la recette</a>
+                        </div>
+                    </div>
+                    <div class="recipe-info">
+                        <h3>Fleurs Vanillée</h3>
+                        <p>Ce dessert primé combine cinq expressions différentes de la vanille de Madagascar pour une expérience sensorielle unique.</p>
+                        <a href="LILAC.HTML" class="recipe-link">Découvrir</a>
+                    </div>
+                </article>
+                
+                <!-- Recette 3 - Opéra -->
+                <article class="recipe-card">
+                    <div class="recipe-img">
+                        <img src="Images/Gateaux/Mes.Creations/Chocolate.png" alt="Opéra contemporain">
+                        <div class="recipe-overlay">
+                            <a href="recette-opera.html" class="recipe-btn">Voir la recette</a>
+                        </div>
+                    </div>
+                    <div class="recipe-info">
+                        <h3>Gateau au chocolat</h3>
+                        <p>Notre interprétation du classique parisien introduit une couche de ganache au chocolat blanc yuzu et remplace le café par une infusion de thé matcha.</p>
+                        <a href="recette-opera.html" class="recipe-link">Découvrir</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+
+
+
+        
+        <!-- Section Ajout de recettes -->
+        <section class="add-recipe container" id="add-recipe">
+            <h2>Partagez Votre Création</h2>
+            <form>
+                <div class="form-group">
+                    <label for="recipe-name">Nom de la recette</label>
+                    <input type="text" id="recipe-name" required placeholder="Donnez un nom évocateur à votre création">
+                </div>
+                
+                <div class="form-group">
+                    <label for="recipe-category">Catégorie</label>
+                    <select id="recipe-category" required>
+                        <option value="">Choisir une catégorie</option>
+                        <option value="tartes">Tartes et Tourtes</option>
+                        <option value="viennoiseries">Viennoiseries</option>
+                        <option value="entremets">Entremets Contemporains</option>
+                        <option value="petits-gateaux">Petits Gâteaux</option>
+                        <option value="autres">Autres</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="recipe-image">Lien vers l'image</label>
+                    <input type="url" id="recipe-image" placeholder="URL d'une photo de votre réalisation">
+                </div>
+                
+                <div class="form-group">
+                    <label for="recipe-ingredients">Ingrédients</label>
+                    <textarea id="recipe-ingredients" required placeholder="Listez les ingrédients avec leurs quantités précises"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="recipe-instructions">Préparation</label>
+                    <textarea id="recipe-instructions" required placeholder="Décrivez étape par étape le processus de fabrication"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="recipe-tips">Astuces et Variantes</label>
+                    <textarea id="recipe-tips" placeholder="Partagez vos conseils pour réussir cette recette à coup sûr"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Soumettre ma recette</button>
+            </form>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="container">
+        <a href="index.html" class="footer-logo">Paul | Pâtisserie</a>
+        
+        <ul class="footer-links">
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Pinterest</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        
+        <p class="copyright">© 2025 Paul | Pâtisserie - Tous droits réservés</p>
+    </footer>
+
+
+
+
+    <script>
+    // Menu Burger
+    const menuToggle = document.getElementById('mobile-menu');
+    const navMenu = document.getElementById('nav-menu');
+    
+    menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+    
+    // Fermer le menu quand on clique sur un lien
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+            
+            // Si c'est un lien vers une ancre, faire défiler doucement
+            if(link.getAttribute('href').startsWith('#')) {
+                const target = document.querySelector(link.getAttribute('href'));
+                if(target) {
+                    event.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // Animation au chargement de la page
+    window.addEventListener('DOMContentLoaded', () => {
+        // Animation des cartes recettes
+        const recipeCards = document.querySelectorAll('.recipe-card');
+        recipeCards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 150 * index);
+        });
+        
+        // Animation du hero
+        const heroContent = document.querySelector('.hero-content');
+        setTimeout(() => {
+            heroContent.style.opacity = '1';
+            heroContent.style.transform = 'translateY(0)';
+        }, 300);
+    });
+    </script>
+</body>
+</html>

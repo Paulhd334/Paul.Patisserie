@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Forest  | Recette Cédric Grolet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+
+
+    <style>
+    :root {
+        --primary-color: #000000;
+        --secondary-color: #333333;
+        --light-color: #ffffff;
+        --accent-color: #888888;
+        --spacing: 1.5rem;
+        --max-width: 1100px;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        text-decoration: none;
+    }
+    
+    body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        color: var(--primary-color);
+        background-color: var(--light-color);
+        line-height: 1.6;
+        font-weight: 300;
+    }
+    
+    /* Typographie */
+    h1, h2, h3, h4 {
+        font-weight: 400;
+        letter-spacing: 1px;
+    }
+    
+    a {
+        color: #000;
+        text-decoration: none;
+    }
+
+    /* Layout */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    /* Header */
+    header {
+        position: fixed;
+        width: 100%;
+        background-color: #fff;
+        z-index: 1000;
+        border-bottom: 1px solid #000;
+    }
+    
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 80px;
+    }
+    
+    .logo {
+        font-size: 18px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #000;
+    }
+    
+    /* Menu Burger */
+    .menu-toggle {
+        display: none;
+        width: 30px;
+        height: 20px;
+        position: relative;
+        cursor: pointer;
+        z-index: 1001;
+    }
+    
+    .menu-toggle span {
+        display: block;
+        position: absolute;
+        height: 1px;
+        width: 100%;
+        background: #000;
+        transition: all 0.3s;
+    }
+    
+    .menu-toggle span:nth-child(1) { top: 0; }
+    .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+    .menu-toggle span:nth-child(3) { bottom: 0; }
+    
+    .menu-toggle.active span:nth-child(1) {
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+    }
+    
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .menu-toggle.active span:nth-child(3) {
+        bottom: 50%;
+        transform: translateY(50%) rotate(-45deg);
+    }
+    
+    .nav-menu {
+        display: flex;
+        list-style: none;
+    }
+    
+    .nav-menu li {
+        margin-left: 40px;
+    }
+    
+    .nav-menu a {
+        font-size: 14px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        position: relative;
+    }
+    
+    .nav-menu a:after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        background: #000;
+        bottom: -2px;
+        left: 0;
+        transition: width 0.3s;
+    }
+    
+    .nav-menu a:hover:after {
+        width: 100%;
+    }
+    
+    /* Hero image */
+    .recipe-hero {
+        height: 100vh;
+        min-height: 700px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        padding-top: 80px;
+    }
+    
+    .recipe-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
+        z-index: 1;
+    }
+    
+    .recipe-hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: white;
+        padding: 0 2rem;
+        max-width: 800px;
+    }
+
+    .hero-content h1 {
+        color: white;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+        margin-bottom: 2rem;
+        letter-spacing: 1px;
+        font-size: 3.5rem;
+        text-transform: uppercase;
+        font-weight: 300;
+    }
+
+    .hero-content p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.2rem;
+        letter-spacing: 0.5px;
+        line-height: 1.8;
+    }
+    
+    /* Contenu recette */
+    .recipe-content {
+        background-color: white;
+        margin: -6rem auto 0;
+        position: relative;
+        z-index: 3;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        padding: 4rem;
+        max-width: 900px;
+    }
+
+    @media (max-width: 768px) {
+        .recipe-content {
+            padding: 2.5rem;
+            margin-top: -4rem;
+        }
+    }
+    
+    .recipe-intro {
+        text-align: center;
+        margin-bottom: 4rem;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    
+    .recipe-intro p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.8;
+    }
+    
+    /* Liste ingrédients */
+    .ingredients-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2.5rem;
+        margin: 3rem 0;
+    }
+
+    .ingredient-group h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+        position: relative;
+        display: inline-block;
+    }
+
+    .ingredient-group h3:after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 40px;
+        height: 1px;
+        background: var(--primary-color);
+    }
+    
+    .ingredients-list {
+        list-style: none;
+    }
+    
+    .ingredients-list li {
+        padding: 0.9rem 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .ingredients-list li:last-child {
+        border-bottom: none;
+    }
+
+    .ingredients-list li span:first-child {
+        font-weight: 400;
+        letter-spacing: 0.3px;
+    }
+
+    .ingredients-list li span:last-child {
+        color: var(--secondary-color);
+        text-align: right;
+        font-size: 0.95rem;
+        font-weight: 300;
+    }
+    
+    /* Étapes de préparation */
+    .steps-list {
+        list-style: none;
+        counter-reset: step-counter;
+        margin: 3rem 0;
+    }
+    
+    .steps-list li {
+        counter-increment: step-counter;
+        margin-bottom: 3rem;
+        position: relative;
+        padding-left: 5rem;
+        display: flex;
+        align-items: flex-start;
+    }
+    
+    .steps-list li:before {
+        content: counter(step-counter);
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 2rem;
+        font-weight: 400;
+        color: var(--primary-color);
+        font-family: 'Playfair Display', serif;
+        line-height: 1;
+        opacity: 0.7;
+    }
+
+    .step-image {
+        margin: 2rem 0;
+        border-radius: 2px;
+        overflow: hidden;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+        transition: transform 0.4s ease;
+    }
+
+    .step-image:hover {
+        transform: translateY(-5px);
+    }
+
+    .step-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    
+    /* Footer */
+    footer {
+        text-align: center;
+        padding: 5rem 0;
+        margin-top: 5rem;
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    footer p {
+        color: rgba(255, 255, 255, 0.6);
+        letter-spacing: 0.5px;
+    }
+    
+    .signature {
+        font-style: italic;
+        margin-top: 4rem;
+        color: white;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+        font-family: 'Playfair Display', serif;
+    }
+
+    /* Hero Button */
+    .hero-btn {
+        display: inline-block;
+        padding: 12px 30px;
+        border: 1px solid white;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 12px;
+        transition: all 0.3s;
+    }
+    .hero-btn:hover {
+        background: white;
+        color: black;
+    }
+    
+    /* Section Recettes */
+    .recipes-section {
+        padding: 100px 0;
+    }
+    
+    .section-title {
+        margin-bottom: 60px;
+        text-align: center;
+    }
+    
+    .section-title h2 {
+        font-size: 24px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+    }
+    
+    .section-title p {
+        font-size: 14px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .recipes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 40px;
+    }
+    
+    .recipe-card {
+        position: relative;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.5s, transform 0.5s;
+    }
+    
+    .recipe-img {
+        width: 100%;
+        height: 400px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .recipe-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+    
+    .recipe-card:hover .recipe-img img {
+        transform: scale(1.03);
+    }
+    
+    .recipe-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .recipe-card:hover .recipe-overlay {
+        opacity: 1;
+    }
+    
+    .recipe-btn {
+        color: white;
+        border: 2px solid white;
+        padding: 10px 25px;
+        border-radius: 0px;
+        font-size: 14px;
+        letter-spacing: 1px;
+        transition: all 0.3s;
+    }
+    
+    .recipe-btn:hover {
+        background: white;
+        color: black;
+    }
+    
+    .recipe-info {
+        margin-top: 20px;
+    }
+    
+    .recipe-info h3 {
+        font-size: 16px;
+        margin-bottom: 5px;
+        letter-spacing: 1px;
+    }
+    
+    .recipe-info p {
+        font-size: 14px;
+        margin-bottom: 15px;
+        color: #555;
+    }
+    
+    .recipe-link {
+        display: inline-block;
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        border: 1px solid #000;
+        padding: 10px 20px;
+        transition: all 0.3s;
+    }
+    
+    .recipe-link:hover {
+        background: #000;
+        color: #fff;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .recipe-content > * {
+        animation: fadeIn 0.8s ease forwards;
+        opacity: 0;
+    }
+
+    .recipe-content > *:nth-child(1) { animation-delay: 0.1s; }
+    .recipe-content > *:nth-child(2) { animation-delay: 0.2s; }
+    .recipe-content > *:nth-child(3) { animation-delay: 0.3s; }
+    .recipe-content > *:nth-child(4) { animation-delay: 0.4s; }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .menu-toggle {
+            display: block;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 900px;
+            height: 100vh;
+            background: #fff;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: right 0.5s;
+            padding-top: 80px;
+        }
+        
+        .nav-menu.active {
+            right: 0;
+        }
+        
+        .nav-menu li {
+            margin: 15px 0;
+        }
+        
+        .recipe-hero {
+            min-height: 600px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+        }
+        
+        .hero-content p {
+            font-size: 1rem;
+        }
+
+        .ingredients-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .steps-list li {
+            padding-left: 4rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .recipe-intro {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+        }
+        
+        .recipe-img {
+            height: 300px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            padding: 0 1.5rem;
+        }
+
+        .recipe-content {
+            padding: 2rem 1.5rem;
+        }
+
+        .steps-list li {
+            padding-left: 3rem;
+        }
+
+        .steps-list li:before {
+            font-size: 1.8rem;
+        }
+        
+        .hero-content h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+
+
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">Paul  | Pâtisserie</a>
+            
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="index.html#recipes">Recettes</a></li>
+                <li><a href="index.html#add-recipe">Ajouter</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+
+
+    <!-- Hero image -->
+    <section class="recipe-hero">
+        <img src="Images/Gateaux/black.forest.jpg" alt="LILAC de Cédric Grolet">
+        <div class="hero-content">
+            <h1>Black Forest<br></h1>
+            <p>Black Forest | Chocolate .</p>
+        </div>
+    </section>
+
+
+
+
+  <main class="container">
+    <article class="recipe-content">
+        <div class="recipe-intro">
+            <h2>🌲 Forêt Noire – Recette Signature Cédric Grolet</h2>
+            <p>Une interprétation, alliant intensité du chocolat et une touche de kirsch.</p>
+        </div>
+        
+        <section>
+            <h2>Ingrédients</h2>
+            <div class="ingredients-grid">
+                <div class="ingredient-group">
+                    <h3>Ganache au kirsch</h3>
+                    <ul class="ingredients-list">
+                        <li><span>Crème entière liquide</span> <span>180g</span></li>
+                        <li><span>Chocolat blanc haché</span> <span>100g</span></li>
+                        <li><span>Masse de gélatine</span> <span>25g</span></li>
+                        <li><span>Poudre de gélatine</span> <span>1.5g (½ feuille)</span></li>
+                        <li><span>Kirsch</span> <span>30g</span></li>
+                    </ul>
+                </div>
+
+                <div class="ingredient-group">
+                    <h3>Gâteau au chocolat sans farine</h3>
+                    <ul class="ingredients-list">
+                        <li><span>Jaunes d'œufs</span> <span>135g (8 jaunes)</span></li>
+                        <li><span>Sucre en poudre</span> <span>210g</span></li>
+                        <li><span>Blancs d'œufs</span> <span>190g (5 blancs)</span></li>
+                        <li><span>Cacao non sucré</span> <span>60g</span></li>
+                    </ul>
+                </div>
+
+                <div class="ingredient-group">
+                    <h3>Sablé chocolat & fleur de sel</h3>
+                    <ul class="ingredients-list">
+                        <li><span>Beurre non salé</span> <span>190g</span></li>
+                        <li><span>Sucre brun</span> <span>150g</span></li>
+                        <li><span>Poudre de vanille</span> <span>1 pincée</span></li>
+                        <li><span>Sucre semoule</span> <span>60g</span></li>
+                        <li><span>Fleur de sel</span> <span>1 pincée</span></li>
+                        <li><span>Farine</span> <span>220g</span></li>
+                        <li><span>Poudre de cacao</span> <span>35g</span></li>
+                        <li><span>Chocolat noir fondu</span> <span>190g</span></li>
+                    </ul>
+                </div>
+
+                <div class="ingredient-group">
+                    <h3>Gelée de griottes morello</h3>
+                    <ul class="ingredients-list">
+                        <li><span>Purée de griottes morello</span> <span>500g</span></li>
+                        <li><span>Gomme xanthane</span> <span>6g</span></li>
+                        <li><span>Griottes morello dénoyautées</span> <span>750g</span></li>
+                        <li><span>Griottes au kirsch</span> <span>125g</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Technique</h2>
+            <ol class="steps-list">
+                <li>
+                    <div>
+                        <h3>Ganache au kirsch</h3>
+                        <p>Faire bouillir la moitié de la crème. Verser sur le chocolat et la masse de gélatine. Mixer au mixeur plongeant. Ajouter le reste de crème froide et le kirsch. Mixer de nouveau. Filtrer et réfrigérer pendant 12 heures.</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>Gâteau au chocolat sans farine</h3>
+                        <p>Préchauffer le four à 175°C. Battre les jaunes avec la moitié du sucre. Battre les blancs avec l'autre moitié. Mélanger délicatement les deux puis incorporer le cacao. Verser dans un moule 25×10 cm. Cuire 20 minutes. Laisser refroidir. Découper un disque de 14 cm.</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>Sablé chocolat & fleur de sel</h3>
+                        <p>Crémer le beurre, le sucre brun, la vanille et le sucre semoule. Ajouter la fleur de sel, la farine et le cacao. Terminer par le chocolat fondu. Étaler, détailler ou utiliser comme base croustillante. Cuire à 160°C si nécessaire.</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>Montage</h3>
+                        <p>Dans un cercle de 14 cm : disposer la gelée + le croustillant + la ganache. Congeler 2h. Dans un moule de 18 cm : pocher la ganache, insérer l'insert congelé au centre. Couvrir de ganache. Lisser. Congeler minimum 6h.</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>Finition</h3>
+                        <p>Monter la ganache restante. Pocher avec une douille Saint-Honoré (type 125) en décoration. Appliquer l'enrobage charbon au pinceau ou spatule. Réfrigérer 4h avant de servir.</p>
+                    </div>
+                </li>
+            </ol>
+        </section>
+        
+        <p class="signature">Recette signature de Cédric Grolet</p>
+    </article>
+</main>
+    
+     
+
+    <!-- Footer -->
+    <footer>
+        <p class="copyright">© 2025 Paul | Pâtisserie - Tous droits réservés</p>
+    </footer>
+
+
+
+
+
+
+
+      <script>
+    // Menu Burger
+    const menuToggle = document.getElementById('mobile-menu');
+    const navMenu = document.getElementById('nav-menu');
+    
+    menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+    
+    // Fermer le menu quand on clique sur un lien
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+            
+            // Si c'est un lien vers une ancre, faire défiler doucement
+            if(link.getAttribute('href').startsWith('#')) {
+                const target = document.querySelector(link.getAttribute('href'));
+                if(target) {
+                    event.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // Animation au chargement de la page
+    window.addEventListener('DOMContentLoaded', () => {
+        // Animation des cartes recettes
+        const recipeCards = document.querySelectorAll('.recipe-card');
+        recipeCards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 150 * index);
+        });
+        
+        // Animation du hero
+        const heroContent = document.querySelector('.hero-content');
+        setTimeout(() => {
+            heroContent.style.opacity = '1';
+            heroContent.style.transform = 'translateY(0)';
+        }, 300);
+    });
+    </script>
+
+
+</body>
+</html>

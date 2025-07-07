@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LILAC | Recette Cédric Grolet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+
+
+    <style>
+    :root {
+        --primary-color: #000000;
+        --secondary-color: #333333;
+        --light-color: #ffffff;
+        --accent-color: #888888;
+        --spacing: 1.5rem;
+        --max-width: 1100px;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        text-decoration: none;
+    }
+    
+    body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        color: var(--primary-color);
+        background-color: var(--light-color);
+        line-height: 1.6;
+        font-weight: 300;
+    }
+    
+    /* Typographie */
+    h1, h2, h3, h4 {
+        font-weight: 400;
+        letter-spacing: 1px;
+    }
+    
+    a {
+        color: #000;
+        text-decoration: none;
+    }
+
+    /* Layout */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    /* Header */
+    header {
+        position: fixed;
+        width: 100%;
+        background-color: #fff;
+        z-index: 1000;
+        border-bottom: 1px solid #000;
+    }
+    
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 80px;
+    }
+    
+    .logo {
+        font-size: 18px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #000;
+    }
+    
+    /* Menu Burger */
+    .menu-toggle {
+        display: none;
+        width: 30px;
+        height: 20px;
+        position: relative;
+        cursor: pointer;
+        z-index: 1001;
+    }
+    
+    .menu-toggle span {
+        display: block;
+        position: absolute;
+        height: 1px;
+        width: 100%;
+        background: #000;
+        transition: all 0.3s;
+    }
+    
+    .menu-toggle span:nth-child(1) { top: 0; }
+    .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+    .menu-toggle span:nth-child(3) { bottom: 0; }
+    
+    .menu-toggle.active span:nth-child(1) {
+        top: 50%;
+        transform: translateY(-50%) rotate(45deg);
+    }
+    
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .menu-toggle.active span:nth-child(3) {
+        bottom: 50%;
+        transform: translateY(50%) rotate(-45deg);
+    }
+    
+    .nav-menu {
+        display: flex;
+        list-style: none;
+    }
+    
+    .nav-menu li {
+        margin-left: 40px;
+    }
+    
+    .nav-menu a {
+        font-size: 14px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        position: relative;
+    }
+    
+    .nav-menu a:after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        background: #000;
+        bottom: -2px;
+        left: 0;
+        transition: width 0.3s;
+    }
+    
+    .nav-menu a:hover:after {
+        width: 100%;
+    }
+    
+    /* Hero image */
+    .recipe-hero {
+        height: 100vh;
+        min-height: 700px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        padding-top: 80px;
+    }
+    
+    .recipe-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
+        z-index: 1;
+    }
+    
+    .recipe-hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: white;
+        padding: 0 2rem;
+        max-width: 800px;
+    }
+
+    .hero-content h1 {
+        color: white;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+        margin-bottom: 2rem;
+        letter-spacing: 1px;
+        font-size: 3.5rem;
+        text-transform: uppercase;
+        font-weight: 300;
+    }
+
+    .hero-content p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.2rem;
+        letter-spacing: 0.5px;
+        line-height: 1.8;
+    }
+    
+    /* Contenu recette */
+    .recipe-content {
+        background-color: white;
+        margin: -6rem auto 0;
+        position: relative;
+        z-index: 3;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+        padding: 4rem;
+        max-width: 900px;
+    }
+
+    @media (max-width: 768px) {
+        .recipe-content {
+            padding: 2.5rem;
+            margin-top: -4rem;
+        }
+    }
+    
+    .recipe-intro {
+        text-align: center;
+        margin-bottom: 4rem;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    
+    .recipe-intro p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.8;
+    }
+    
+    /* Liste ingrédients */
+    .ingredients-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2.5rem;
+        margin: 3rem 0;
+    }
+
+    .ingredient-group h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-color);
+        position: relative;
+        display: inline-block;
+    }
+
+    .ingredient-group h3:after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 40px;
+        height: 1px;
+        background: var(--primary-color);
+    }
+    
+    .ingredients-list {
+        list-style: none;
+    }
+    
+    .ingredients-list li {
+        padding: 0.9rem 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .ingredients-list li:last-child {
+        border-bottom: none;
+    }
+
+    .ingredients-list li span:first-child {
+        font-weight: 400;
+        letter-spacing: 0.3px;
+    }
+
+    .ingredients-list li span:last-child {
+        color: var(--secondary-color);
+        text-align: right;
+        font-size: 0.95rem;
+        font-weight: 300;
+    }
+    
+    /* Étapes de préparation */
+    .steps-list {
+        list-style: none;
+        counter-reset: step-counter;
+        margin: 3rem 0;
+    }
+    
+    .steps-list li {
+        counter-increment: step-counter;
+        margin-bottom: 3rem;
+        position: relative;
+        padding-left: 5rem;
+        display: flex;
+        align-items: flex-start;
+    }
+    
+    .steps-list li:before {
+        content: counter(step-counter);
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 2rem;
+        font-weight: 400;
+        color: var(--primary-color);
+        font-family: 'Playfair Display', serif;
+        line-height: 1;
+        opacity: 0.7;
+    }
+
+    .step-image {
+        margin: 2rem 0;
+        border-radius: 2px;
+        overflow: hidden;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+        transition: transform 0.4s ease;
+    }
+
+    .step-image:hover {
+        transform: translateY(-5px);
+    }
+
+    .step-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    
+    /* Footer */
+    footer {
+        text-align: center;
+        padding: 5rem 0;
+        margin-top: 5rem;
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    footer p {
+        color: rgba(255, 255, 255, 0.6);
+        letter-spacing: 0.5px;
+    }
+    
+    .signature {
+        font-style: italic;
+        margin-top: 4rem;
+        color: white;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+        font-family: 'Playfair Display', serif;
+    }
+
+    /* Hero Button */
+    .hero-btn {
+        display: inline-block;
+        padding: 12px 30px;
+        border: 1px solid white;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 12px;
+        transition: all 0.3s;
+    }
+    .hero-btn:hover {
+        background: white;
+        color: black;
+    }
+    
+    /* Section Recettes */
+    .recipes-section {
+        padding: 100px 0;
+    }
+    
+    .section-title {
+        margin-bottom: 60px;
+        text-align: center;
+    }
+    
+    .section-title h2 {
+        font-size: 24px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+    }
+    
+    .section-title p {
+        font-size: 14px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .recipes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 40px;
+    }
+    
+    .recipe-card {
+        position: relative;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.5s, transform 0.5s;
+    }
+    
+    .recipe-img {
+        width: 100%;
+        height: 400px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .recipe-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+    
+    .recipe-card:hover .recipe-img img {
+        transform: scale(1.03);
+    }
+    
+    .recipe-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .recipe-card:hover .recipe-overlay {
+        opacity: 1;
+    }
+    
+    .recipe-btn {
+        color: white;
+        border: 2px solid white;
+        padding: 10px 25px;
+        border-radius: 0px;
+        font-size: 14px;
+        letter-spacing: 1px;
+        transition: all 0.3s;
+    }
+    
+    .recipe-btn:hover {
+        background: white;
+        color: black;
+    }
+    
+    .recipe-info {
+        margin-top: 20px;
+    }
+    
+    .recipe-info h3 {
+        font-size: 16px;
+        margin-bottom: 5px;
+        letter-spacing: 1px;
+    }
+    
+    .recipe-info p {
+        font-size: 14px;
+        margin-bottom: 15px;
+        color: #555;
+    }
+    
+    .recipe-link {
+        display: inline-block;
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        border: 1px solid #000;
+        padding: 10px 20px;
+        transition: all 0.3s;
+    }
+    
+    .recipe-link:hover {
+        background: #000;
+        color: #fff;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .recipe-content > * {
+        animation: fadeIn 0.8s ease forwards;
+        opacity: 0;
+    }
+
+    .recipe-content > *:nth-child(1) { animation-delay: 0.1s; }
+    .recipe-content > *:nth-child(2) { animation-delay: 0.2s; }
+    .recipe-content > *:nth-child(3) { animation-delay: 0.3s; }
+    .recipe-content > *:nth-child(4) { animation-delay: 0.4s; }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .menu-toggle {
+            display: block;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 900px;
+            height: 100vh;
+            background: #fff;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: right 0.5s;
+            padding-top: 80px;
+        }
+        
+        .nav-menu.active {
+            right: 0;
+        }
+        
+        .nav-menu li {
+            margin: 15px 0;
+        }
+        
+        .recipe-hero {
+            min-height: 600px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+        }
+        
+        .hero-content p {
+            font-size: 1rem;
+        }
+
+        .ingredients-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .steps-list li {
+            padding-left: 4rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .recipe-intro {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+        }
+        
+        .recipe-img {
+            height: 300px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            padding: 0 1.5rem;
+        }
+
+        .recipe-content {
+            padding: 2rem 1.5rem;
+        }
+
+        .steps-list li {
+            padding-left: 3rem;
+        }
+
+        .steps-list li:before {
+            font-size: 1.8rem;
+        }
+        
+        .hero-content h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+
+
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">Paul  | Pâtisserie</a>
+            
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="index.html#recipes">Recettes</a></li>
+                <li><a href="index.html#add-recipe">Ajouter</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+
+
+    <!-- Hero image -->
+    <section class="recipe-hero">
+        <img src="Images/Gateaux/Lilac.png" alt="LILAC de Cédric Grolet">
+        <div class="hero-content">
+            <h1>LILAC<br></h1>
+       <p class="description">Une symphonie printanière où la douceur vanillée épouse l'acidulé des myrtilles.
+     Ce dessert joue sur les contrastes : entre le moelleux du gâteau à la pâte à choux, la fraîcheur et l'onctuosité de la ganache.</p>
+     
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Contenu recette -->
+
+
+
+    <!-- Contenu recette -->
+<main class="container">
+    <article class="recipe-content">
+        <div class="recipe-intro">
+
+            <h1>LILAC - Harmonie Vanillée</h1>
+
+
+         
+        </div>
+        
+        <section>
+            <h2>Ingrédients</h2>
+            <div class="ingredients-grid">
+                <div class="ingredient-group">
+                    <h3>Gâteau éponge en pâte à choux</h3>
+                    <ul class="ingredients-list">
+                        <li><span>Lait</span> <span>10g (2 càc)</span></li>
+                        <li><span>Beurre non salé</span> <span>25g (1½ càs)</span></li>
+                        <li><span>Farine à gâteau (type "00")</span> <span>95g (¾ tasse + 1¼ càs)</span></li>
+                        <li><span>Œuf moyen </span> <span>45g (1 œuf)</span></li>
+                        <li><span>Jaunes d'œufs très gros </span> <span>40g (2 jaunes)</span></li>
+                        <li><span>Blanc d'œuf très gros </span> <span>80g </span></li>
+                        <li><span>Sucre en poudre</span> <span>50g (¼ tasse)</span></li>
+                        <li><span>Myrtilles fraîches</span> <span>20 fruits</span></li>
+                    </ul>
+                </div>
+
+                <div class="ingredient-group">
+                    <h3>Ganache à la crème pâtissière</h3>
+                    <ul class="ingredients-list">
+                        <li><span>Crème liquide entière</span> <span>200g (¾ tasse)</span></li>
+                        <li><span>Jaunes d'œufs moyens </span> <span>85g (5 jaunes)</span></li>
+                        <li><span>Sucre en poudre</span> <span>40g (3 càs)</span></li>
+                        <li><span>Masse de gélatine</span> <span>17g (1½ càs)</span></li>
+                        <li><span>Crème fraîche</span> <span>330g (1¼ tasse + 1¼ càs)</span></li>
+                        <li><span>Jus de citron</span> <span>35g (2 càs + 1 càc)</span></li>
+                        <li><span>Mascarpone</span> <span>330g (1¼ tasse + 1¼ càs)</span></li>
+                    </ul>
+                </div>
+
+                <div class="ingredient-group">
+                    <h3>Gel à la myrtille et aux fleurs de lilas</h3>
+                    <ul class="ingredients-list">
+                        <li><span>Jus de myrtille</span> <span>400g (1⅔ tasse)</span></li>
+                        <li><span>Fleurs de lilas comestibles</span> <span>15g (½ tasse)</span></li>
+                        <li><span>Sucre en poudre</span> <span>40g (3¼ càs)</span></li>
+                        <li><span>Poudre d'agar-agar</span> <span>6g (2½ càs)</span></li>
+                        <li><span>Gomme xanthane</span> <span>2g (¾ càc)</span></li>
+                    </ul>
+                </div>
+
+                <div class="ingredient-group">
+                    <h3>Pour le montage</h3>
+                    <ul class="ingredients-list">
+                        <li><span>Myrtilles fraîches</span> <span>20 fruits</span></li>
+                        <li><span>Glaçage au chocolat blanc</span> <span>(voir référence)</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Technique</h2>
+            <ol class="steps-list">
+                <li>
+                    <div>
+                        <h3>Gâteau éponge en pâte à choux</h3>
+                        <p>Préchauffez le four à 165°C (thermostat 3). Dans une casserole, portez à ébullition le lait et le beurre. Faites bouillir 1-2 minutes, ajoutez la farine et remuez sur feu doux jusqu'à ce que la pâte se détache des parois. Transférez dans un robot et ajoutez les œufs et jaunes en trois fois. Montez les blancs en meringue avec le sucre. Incorporez la meringue à la pâte en trois fois, puis les myrtilles. Dressez dans un cercle de 20 cm et enfournez 20-25 minutes en ouvrant à mi-cuisson. Laissez refroidir.</p>
+                        <div class="step-image">
+                            <img src="Images/Gateaux/Lilac.png" alt="Pâte à choux en cours de préparation">
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>Ganache à la crème pâtissière</h3>
+                        <p>Portez la crème à ébullition. Fouettez les jaunes avec le sucre. Versez un peu de crème bouillante sur ce mélange puis reversez le tout dans la casserole pour faire une crème anglaise à 82°C. Mixez avec la masse de gélatine et la crème fraîche mélangée au jus de citron. Ajoutez le mascarpone. Réfrigérez 12 heures.</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>Gel myrtille-lilas</h3>
+                        <p>Dans une casserole, combinez le jus de myrtille et les fleurs de lilas, portez à ébullition, puis ajoutez le sucre, l'agar-agar et la gomme xanthane. Mixez et réfrigérez jusqu'à prise.</p>
+                        <div class="step-image">
+                            <img src="https://via.placeholder.com/800x500/f9f5f0/cccccc?text=Gel+myrtille-lilas" alt="Gel myrtille-lilas en préparation">
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>Montage</h3>
+                        <p>Fouettez la ganache. Retirez l'anneau du gâteau et remplacez-le par un cercle tapissé de rhodoïd. Étalez une couche de gel sur le biscuit, disposez les myrtilles, puis versez le reste du gel. Congelez 1 heure. Pochez la ganache dans un moule de 18 cm, ajoutez l'insert, couvrez de ganache et lissez. Congelez 1 heure.</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h3>Finition</h3>
+                        <p>Placez le gâteau sur un plateau tournant. Pochez la ganache en spirale avec une douille Saint-Honoré n°125 en créant des vagues régulières. Utilisez un pistolet à flocage pour vaporiser le chocolat blanc tempéré.</p>
+                        <div class="step-image">
+                            <img src="https://via.placeholder.com/800x500/f9f5f0/cccccc?text=Finition+du+gâteau+Lilac" alt="Finition du gâteau Lilac">
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </section>
+        
+
+
+    <!-- Footer -->
+    <footer>
+         <p class="copyright">© 2025 Paul | Pâtisserie - Tous droits réservés</p>
+    </footer>
+
+
+
+
+
+
+
+      <script>
+    // Menu Burger
+    const menuToggle = document.getElementById('mobile-menu');
+    const navMenu = document.getElementById('nav-menu');
+    
+    menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+    
+    // Fermer le menu quand on clique sur un lien
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+            
+            // Si c'est un lien vers une ancre, faire défiler doucement
+            if(link.getAttribute('href').startsWith('#')) {
+                const target = document.querySelector(link.getAttribute('href'));
+                if(target) {
+                    event.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // Animation au chargement de la page
+    window.addEventListener('DOMContentLoaded', () => {
+        // Animation des cartes recettes
+        const recipeCards = document.querySelectorAll('.recipe-card');
+        recipeCards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 150 * index);
+        });
+        
+        // Animation du hero
+        const heroContent = document.querySelector('.hero-content');
+        setTimeout(() => {
+            heroContent.style.opacity = '1';
+            heroContent.style.transform = 'translateY(0)';
+        }, 300);
+    });
+    </script>
+
+
+</body>
+</html>
