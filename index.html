@@ -3,17 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paul  | Pâtisserie  | Recettes Style Cédric Grolet</title>
-    <meta name="description" content="Paul  | Pâtisserie  | Recettes de Cédric Grolet">
+    <title>Paul  | Pâtisserie  | Recettes de Cédric Grolet</title>
+    <meta name="description" content="Paul  | Pâtisserie  | Recettes de Cédric Grolet.">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-
-
-
-
-
+    <meta property="og:type" content="website">
 
     <style>
-        /* Reset */
         * {
             margin: 0;
             padding: 0;
@@ -488,19 +483,393 @@
                 margin: 15px 0;
             }
             
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero-content p {
-                font-size: 1rem;
-            }
-            
-            .recipe-img {
-                height: 300px;
-            }
+
         }
-    </style>
+  
+
+
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .recipes-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .section-title h2,
+        .add-recipe h2 {
+            font-size: 1.5rem;
+        }
+        
+        .recipe-info h3 {
+            font-size: 1rem;
+        }
+        
+        .recipe-info p {
+            font-size: 0.9rem;
+        }
+        
+        .footer-links {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .recipes-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .recipe-img {
+            height: 150px;
+        }
+        
+        .section-title h2,
+        .add-recipe h2 {
+            font-size: 1.3rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 8px;
+        }
+        
+        .submit-btn {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+        
+        .footer-logo {
+            font-size: 1.2rem;
+        }
+    }
+
+    /* Responsive Design - Optimisation Mobile */
+@media (max-width: 1024px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        height: 60px;
+    }
+    
+    .hero {
+        padding-top: 60px;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+    
+    .recipes-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .recipe-img {
+        height: 250px;
+    }
+    
+    .section-title h2,
+    .add-recipe h2 {
+        font-size: 1.3rem;
+    }
+    
+    .footer-links {
+        flex-wrap: wrap;
+    }
+    
+    .footer-links li {
+        margin: 5px 15px;
+    }
+}
+
+/* Adaptation spécifique pour les petits écrans (iPhone SE et similaires) */
+@media (max-width: 480px) {
+    .header-container {
+        height: 50px;
+    }
+    
+    .logo {
+        font-size: 16px;
+    }
+    
+    .hero {
+        padding-top: 50px;
+    }
+    
+    .hero-content h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-content p {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-btn {
+        padding: 10px 20px;
+        font-size: 11px;
+    }
+    
+    .recipes-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .recipe-img {
+        height: 200px;
+    }
+    
+    .section-title {
+        margin-bottom: 40px;
+    }
+    
+    .section-title h2 {
+        font-size: 1.1rem;
+    }
+    
+    .section-title p {
+        font-size: 0.8rem;
+    }
+    
+    .recipe-info h3 {
+        font-size: 0.9rem;
+    }
+    
+    .recipe-info p {
+        font-size: 0.8rem;
+    }
+    
+    .recipe-link {
+        padding: 8px 15px;
+        font-size: 11px;
+    }
+    
+    .form-group label {
+        font-size: 0.8rem;
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        font-size: 0.8rem;
+    }
+    
+    .submit-btn {
+        padding: 10px 20px;
+        font-size: 11px;
+    }
+    
+    .footer-logo {
+        font-size: 16px;
+    }
+    
+    .footer-links a {
+        font-size: 11px;
+    }
+    
+    .copyright {
+        font-size: 0.7rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==================== */
+/* RESPONSIVE MOBILE UX */
+/* ==================== */
+
+@media (max-width: 768px) {
+    /* Ajustements généraux */
+    body {
+        font-size: 14px;
+    }
+    
+    .container {
+        padding: 0 15px;
+    }
+    
+    /* Header mobile */
+    .header-container {
+        height: 60px;
+        padding: 0 15px;
+    }
+    
+    .logo {
+        font-size: 16px;
+    }
+    
+    /* Hero section mobile */
+    .hero {
+        padding-top: 60px;
+        height: 80vh;
+        min-height: 500px;
+    }
+    
+    .hero-content h1 {
+        font-size: 1.8rem;
+        letter-spacing: 1px;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-content p {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-btn {
+        padding: 10px 20px;
+        font-size: 11px;
+    }
+    
+    /* Grille de recettes mobile */
+    .recipes-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .recipe-card {
+        border: 1px solid #eee;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .recipe-img {
+        height: 220px;
+        position: relative;
+    }
+    
+    /* Bande noire stylée pour mobile */
+    .recipe-img::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        z-index: 1;
+    }
+    
+    .recipe-overlay {
+        opacity: 1;
+        background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        align-items: flex-end;
+        padding-bottom: 15px;
+    }
+    
+    .recipe-btn {
+        border-width: 1px;
+        padding: 8px 20px;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+    
+    .recipe-info {
+        padding: 0 10px 15px;
+    }
+    
+    .recipe-info h3 {
+        font-size: 15px;
+        color: #000;
+    }
+    
+    .recipe-info p {
+        font-size: 13px;
+        color: #666;
+    }
+    
+    .recipe-link {
+        display: none; /* On cache le lien sur mobile */
+    }
+    
+    /* Styles spécifiques pour les très petits écrans */
+    @media (max-width: 400px) {
+        .hero {
+            height: 70vh;
+            min-height: 400px;
+        }
+        
+        .hero-content h1 {
+            font-size: 1.5rem;
+        }
+        
+        .recipe-img {
+            height: 180px;
+        }
+    }
+    
+    /* Correction iOS */
+    @supports (-webkit-touch-callout: none) {
+        .hero {
+            height: -webkit-fill-available;
+        }
+    }
+}
+
+/* ===================== */
+/* AMÉLIORATIONS TOUCH */
+/* ===================== */
+a, button, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+    min-width: 44px;
+    min-height: 44px;
+    touch-action: manipulation;
+}
+
+/* Empêche le zoom sur les inputs */
+@media (max-width: 768px) {
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* Animation fluide pour les transitions */
+@media (prefers-reduced-motion: no-preference) {
+    .recipe-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .recipe-card:active {
+        transform: scale(0.98);
+    }
+}
+
+
+
+
+
+
+
+</style>
+
+
+
+
+
+
 </head>
 
 
@@ -776,5 +1145,5 @@
         }, 300);
     });
     </script>
-</body>
+ </body>
 </html>
